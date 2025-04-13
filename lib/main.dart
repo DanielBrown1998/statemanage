@@ -3,11 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'pages/clients_page.dart';
 import "models/clients.dart";
+import "models/client.dart";
+import "models/types.dart";
+import "models/client_type.dart";
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => Clients(clients: []),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => Clients(clients: []),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => Types(types: [
+            ClientType(name: 'Platinum', icon: Icons.credit_card),
+            ClientType(name: 'Golden', icon: Icons.card_membership),
+            ClientType(name: 'Titanium', icon: Icons.credit_score),
+            ClientType(name: 'Diamond', icon: Icons.diamond),
+          ]),
+        ),
+      ],
       child: const MyApp(),
     ),
   );
