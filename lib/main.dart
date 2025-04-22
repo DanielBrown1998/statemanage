@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'pages/clients_page.dart';
 import "models/clients.dart";
-import "models/client.dart";
 import "models/types.dart";
 import "models/client_type.dart";
 
