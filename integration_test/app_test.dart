@@ -70,7 +70,6 @@ void main() {
 
     expect(find.text("Cadastrar cliente"), findsOneWidget);
     expect(find.byType(TextFormField), findsNWidgets(2));
-    //expect(find.byType(StatefulBuilder), findsOneWidget);
     expect(find.byType(TextButton), findsNWidgets(2));
     await test.tap(find.byType(TextFormField).first);
     await test.enterText(find.byType(TextFormField).first, "Novo cliente");
@@ -78,10 +77,10 @@ void main() {
     await test.tap(find.byType(TextFormField).last);
     await test.enterText(find.byType(TextFormField).last, "newClient@xpto.com");
     await test.pumpAndSettle();
-    //await test.tap(find.byType(DropdownButton));
-    //await test.pumpAndSettle();
-    //await test.tap(find.text("Platinum"));
-    //await test.pumpAndSettle();
+    await test.tap(find.byIcon(Icons.arrow_downward));
+    await test.pumpAndSettle();
+    await test.tap(find.text("Platinum").last);
+    await test.pumpAndSettle();
     await test.tap(find.text("Salvar"));
     await test.pumpAndSettle();
     
