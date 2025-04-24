@@ -63,12 +63,23 @@ void main() {
             .name,
         "Novo tipo");
     expect(
-        Provider.of<Types>(providerKey.currentContext!, listen: false).types.last.icon, Icons.home);
+        Provider.of<Types>(providerKey.currentContext!, listen: false)
+            .types
+            .last
+            .icon,
+        Icons.home);
+
     //testing remove type
     await test.drag(find.text("Novo tipo"), const Offset(1000, 0));
     await test.pumpAndSettle();
     expect(find.text("Novo tipo"), findsNothing);
     expect(find.byIcon(Icons.home), findsNothing);
+    expect(
+        Provider.of<Types>(providerKey.currentContext!, listen: false)
+            .types
+            .where((element) => element.name == "Novo tipo")
+            .isEmpty,
+        true);
 
     //testing back to main screen
     await test.tap(find.byIcon(Icons.menu));
@@ -99,11 +110,24 @@ void main() {
     //testing if new client was added
     expect(find.text("Novo cliente (Platinum)"), findsOneWidget);
 
-    expect(Provider.of<Clients>(providerKey.currentContext!, listen: false).clients.last.name,
+    expect(
+        Provider.of<Clients>(providerKey.currentContext!, listen: false)
+            .clients
+            .last
+            .name,
         "Novo cliente");
-    expect(Provider.of<Clients>(providerKey.currentContext!, listen: false).clients.last.email,
+    expect(
+        Provider.of<Clients>(providerKey.currentContext!, listen: false)
+            .clients
+            .last
+            .email,
         "newClient@xpto.com");
-    expect(Provider.of<Clients>(providerKey.currentContext!, listen: false).clients.last.type.name,
+    expect(
+        Provider.of<Clients>(providerKey.currentContext!, listen: false)
+            .clients
+            .last
+            .type
+            .name,
         "Platinum");
 
     //testing remove client
@@ -111,6 +135,13 @@ void main() {
         find.text("Novo cliente (Platinum)"), const Offset(1000, 0));
     await test.pumpAndSettle();
     expect(find.text("Novo cliente (Platinum)"), findsNothing);
+
+    expect(
+        Provider.of<Clients>(providerKey.currentContext!, listen: false)
+            .clients
+            .where((element) => element.name == "Novo cliente")
+            .isEmpty,
+        true);
 
     //testing exit app
     //await test.tap(find.byIcon(Icons.menu));
