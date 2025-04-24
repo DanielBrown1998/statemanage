@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:client_control/main.dart' as app;
+import 'package:client_control/models/types.dart';
+import 'package:client_control/models/clients.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   // Add your integration tests here
   testWidgets("Integration Test", (test) async {
+    final GlobalKey<State<StatefulWidget>> providerKey = GlobalKey();
     //testing principal screen
-    app.main();
+    app.test([], providerKey);
     await test.pumpAndSettle();
     expect(find.text("Clientes"), findsOneWidget);
     expect(find.byIcon(Icons.menu), findsOneWidget);
@@ -51,7 +55,15 @@ void main() {
     await test.pumpAndSettle();
     expect(find.text("Novo tipo"), findsOneWidget);
     expect(find.byIcon(Icons.home), findsOneWidget);
-
+    expect(
+        Provider.of<Types>(providerKey.currentContext!, listen: false)
+            .types
+            .where((element) => element.name == "Novo tipo")
+            .first
+            .name,
+        "Novo tipo");
+    expect(
+        Provider.of<Types>(providerKey.currentContext!, listen: false).types.last.icon, Icons.home);
     //testing remove type
     await test.drag(find.text("Novo tipo"), const Offset(1000, 0));
     await test.pumpAndSettle();
@@ -83,12 +95,20 @@ void main() {
     await test.pumpAndSettle();
     await test.tap(find.text("Salvar"));
     await test.pumpAndSettle();
-    
+
     //testing if new client was added
     expect(find.text("Novo cliente (Platinum)"), findsOneWidget);
 
+    expect(Provider.of<Clients>(providerKey.currentContext!, listen: false).clients.last.name,
+        "Novo cliente");
+    expect(Provider.of<Clients>(providerKey.currentContext!, listen: false).clients.last.email,
+        "newClient@xpto.com");
+    expect(Provider.of<Clients>(providerKey.currentContext!, listen: false).clients.last.type.name,
+        "Platinum");
+
     //testing remove client
-    await test.drag(find.text("Novo cliente (Platinum)"), const Offset(1000, 0));
+    await test.drag(
+        find.text("Novo cliente (Platinum)"), const Offset(1000, 0));
     await test.pumpAndSettle();
     expect(find.text("Novo cliente (Platinum)"), findsNothing);
 
@@ -96,6 +116,5 @@ void main() {
     //await test.tap(find.byIcon(Icons.menu));
     //await test.pumpAndSettle();
     //await test.tap(find.text("Sair"));
-
   });
 }

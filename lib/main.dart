@@ -6,6 +6,7 @@ import "models/clients.dart";
 import "models/types.dart";
 import "models/client_type.dart";
 
+//Debug
 void main() {
   runApp(
     MultiProvider(
@@ -22,17 +23,7 @@ void main() {
           ]),
         ),
       ],
-      child: const MyApp(),
-    ),
-  );
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+      child: MaterialApp(
       title: 'Controle de clientes',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -43,6 +34,45 @@ class MyApp extends StatelessWidget {
         '/': (context) => const ClientsPage(title: 'Clientes'),
         '/tipos': (context) => const ClientTypesPage(title: 'Tipos de cliente'),
       },
-    );
-  }
+    ),
+    ),
+  );
 }
+
+//T
+void test(
+  List<String> args,
+  GlobalKey<State<StatefulWidget>>? keyForProvider,
+) {
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => Clients(clients: []),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => Types(types: [
+            ClientType(name: 'Platinum', icon: Icons.credit_card),
+            ClientType(name: 'Golden', icon: Icons.card_membership),
+            ClientType(name: 'Titanium', icon: Icons.credit_score),
+            ClientType(name: 'Diamond', icon: Icons.diamond),
+          ]),
+        ),
+      ],
+      child: MaterialApp(
+      key: keyForProvider,
+      title: 'Controle de clientes',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.indigo,
+      ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const ClientsPage(title: 'Clientes'),
+        '/tipos': (context) => const ClientTypesPage(title: 'Tipos de cliente'),
+      },
+    ),
+    ),
+  );
+}
+

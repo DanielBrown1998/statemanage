@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:client_control/components/hamburger_menu.dart';
 import 'package:flutter/material.dart';
